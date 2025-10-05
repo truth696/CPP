@@ -11,38 +11,38 @@ typedef struct {
     
 } Person;
 
-const char* get_Name (Person* this) { return this->name; }
+const char* get_Name (Person* const this) { return this->name; }
 
-const int getAge (Person* this) { return this->age; }
+const int getAge (Person* const this) { return this->age; }
 
-const double getHeight(Person* this) { return this->height; }
+const double getHeight(Person* const this) { return this->height; }
 
-void setName (Person* this, char* n) { strcpy(this->name, n); }
+void setName (Person* const this, char* n) { strcpy(this->name, n); }
 
-void setAge (Person* this, int a) { this->age = a; }
+void setAge (Person* const this, int a) { this->age = a; }
 
-void setHeight (Person* this, double h) { this->height = h; }
+void setHeight (Person* const this, double h) { this->height = h; }
 
-void printInfo (Person* this) {
+void printInfo (Person* const this) {
     printf ("Name: %s ",this->name);
     printf("Age : %d ", this->age);
     printf("Height: %f\n", this->height);
 }
 
-void printInfo_h (Person* this, bool showHeight) {
+void printInfo_h (Person* const this, bool showHeight) {
     printf("Name: %s ", this->name);
     printf("Age : %d ", this->age);
     if (showHeight) printf("Height: %f\n", this->height);
    }
 
 
-void ctor (Person* this) {
+void ctor (Person* const this) {
     strcpy(this->name, "Unknown");
     this->age = 0;
     this->height = 0.0;
 }
 
-void set_person(char* n, int a, double h, Person* this) {
+void set_person(char* n, int a, double h, Person* const this) {
     strcpy(this->name, n);
     this->age = a;
     this->height = h;
