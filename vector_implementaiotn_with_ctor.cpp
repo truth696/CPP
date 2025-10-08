@@ -9,16 +9,68 @@ private :
     int* data;
     size_t _size;
     size_t _capacity;
-
-public :
+    
+    public :
     Vector_my () : data (nullptr), _size(0), _capacity(0){ }
+    
     Vector_my (size_t n, int value = 0) : data(new int[n]), _size(n), _capacity(n) { for (int i = 0; i < _size; ++i) data[i] = value; }
+    
     Vector_my (std::initializer_list<int> init ) : data(new int[init.size()]), _size (0), _capacity(init.size()) { for (int value : init) data[_size++] = value; }
+    
+    Vector_my (const Vector_my& oth) {
+        _capacity = oth._capacity;
+        _size = oth._size;
+        data = new int [_capacity];
+        for (int i = 0; i < _size; ++i) data[i] = oth.data[i];
+    }
+
+    Vector_my& operator= (const Vector_my& oth) {
+        if (this != &oth){
+            _capacity = oth._capacity;
+            _size = oth._size;
+            delete [] data;
+            data = new int [_capacity];
+            for (int i = 0; i < _size; ++i) data[i] = oth.data[i];
+        }
+        return *this;
+
+    }
+    
+    Vector_my (Vector_my&& oth) {
+        _capacity = oth._capacity;
+        _size = oth._size;
+        data = oth.data;
+
+        oth._size = 0;
+        oth._capacity = 0;
+        oth.data = nullptr; 
+    }  
+    
+    Vector_my& operator= (Vector_my&& oth){
+        if (this != &oth) {
+            _size = oth._size ;
+            _capacity = oth._capacity;
+            delete [] data;
+            data = oth.data;
+            
+            oth._size = 0;
+            oth._capacity = 0;
+            oth.data = nullptr; 
+        }
+        return *this;
+    }
+    
     ~Vector_my () {
         delete[]data;
         _size = 0;
         _capacity = 0;
     }
+
+    int get_size () const { return _size; }
+    int get_cpacity () const { return _capacity; }
+    void set_size (size_t x) {_size = x;}
+    void set_capacity (size_t x) {_capacity = x;}
+
     void new_size (){ 
         if (_capacity == 0) _capacity = 1;
         int* tmp = new int[_capacity*2];
@@ -28,11 +80,11 @@ public :
         _capacity *= 2;
     }
 
-    // void destroy () {
-    //     delete[] data;
-    //     _size = 0;
-    //     _capacity = 0;
-    // }
+    void destroy () {
+        delete[] data;
+        _size = 0;
+        _capacity = 0;
+    }
 
     void push_back (int value) {
         if (_size == _capacity) new_size();
@@ -64,8 +116,6 @@ public :
         for (int i = index; i+1 < _size; ++i) data[i] = data[i + 1];
         --_size;
     }
-    int get_size () const { return _size; }
-    int get_cpacity () const { return _capacity; }
 
 };
 
@@ -97,7 +147,7 @@ int main() {
         v.push_back(999);
 
         // 7. destroy
-        // v.destroy();  // очищаем и удаляем память
+        v.destroy();  // очищаем и удаляем память
 
         std::cout << "✅ Все методы вызваны без падений\n";
 
