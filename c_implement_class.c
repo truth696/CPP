@@ -11,11 +11,11 @@ typedef struct {
     
 } Person;
 
-const char* get_Name (Person* const this) { return this->name; }
+const char* get_Name (const Person* const this) { return this->name; }
 
-const int getAge (Person* const this) { return this->age; }
+const int getAge (const Person* const this) { return this->age; }
 
-const double getHeight(Person* const this) { return this->height; }
+const double getHeight(const Person* const this) { return this->height; }
 
 void setName (Person* const this, char* n) { strcpy(this->name, n); }
 
@@ -23,13 +23,13 @@ void setAge (Person* const this, int a) { this->age = a; }
 
 void setHeight (Person* const this, double h) { this->height = h; }
 
-void printInfo (Person* const this) {
+void printInfo (const Person* const this) {
     printf ("Name: %s ",this->name);
     printf("Age : %d ", this->age);
     printf("Height: %f\n", this->height);
 }
 
-void printInfo_h (Person* const this, bool showHeight) {
+void printInfo_h (const Person* const this, bool showHeight) {
     printf("Name: %s ", this->name);
     printf("Age : %d ", this->age);
     if (showHeight) printf("Height: %f\n", this->height);
@@ -42,7 +42,7 @@ void ctor (Person* const this) {
     this->height = 0.0;
 }
 
-void set_person(char* n, int a, double h, Person* const this) {
+void set_person(Person* const this, char* n, int a, double h) {
     strcpy(this->name, n);
     this->age = a;
     this->height = h;
@@ -51,7 +51,7 @@ void set_person(char* n, int a, double h, Person* const this) {
 int main() {
     Person p1;
     ctor (&p1);
-    set_person("Bob", 19, 1.75, &p1);
+    set_person(&p1, "Bob", 19, 1.75);
     printInfo (&p1);
     printInfo_h (&p1, true);
     setAge (&p1, 20);
