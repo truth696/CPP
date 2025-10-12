@@ -10,7 +10,7 @@ Rational::Rational(int num, int denum) {
         }
         _num = num;
         _denum = denum;
-        reduce_helper();
+        this->reduce_helper();
     }
 }
 
@@ -50,27 +50,27 @@ Rational Rational::operator-() const {
 
 Rational& Rational::operator++(){
     _num += _denum;
-    reduce_helper();
+    this->reduce_helper();
     return *this;
 }
 
 Rational Rational::operator++(int){
     Rational tmp(_num, _denum);
     _num += _denum;
-    reduce_helper();
+    this->reduce_helper();
     return tmp;
 }
 
 Rational& Rational::operator--(){
     _num -= _denum;
-    reduce_helper();
+    this->reduce_helper();
     return *this;
 }
 
 Rational Rational::operator--(int){
     Rational tmp(_num, _denum);
     _num -= _denum;
-    reduce_helper();
+    tmp.reduce_helper();
     return tmp;
 }
 
@@ -81,33 +81,33 @@ bool Rational::operator !() const {
 Rational& Rational::operator+=(const Rational& oth) {
     if (oth._denum == this->_denum) {
         this->_num += oth._num;
-        reduce_helper();
+        this->reduce_helper();
         return *this;
     }
     this->_num *= oth._denum;
     this->_denum *= oth._denum;
     this->_num += oth._num * this->_denum;
-    reduce_helper();
+    this->reduce_helper();
     return *this;
 }
 
 Rational& Rational::operator-=(const Rational& oth) {
     if (oth._denum == this->_denum) {
         this->_num -= oth._num;
-        reduce_helper();
+        this->reduce_helper();
         return *this;
     }
     this->_num *= oth._denum;
     this->_denum *= oth._denum;
     this->_num -= oth._num * this->_denum;
-    reduce_helper();
+    this->reduce_helper();
     return *this;
 }
 
 Rational& Rational::operator*=(const Rational& oth) {
     _num *= oth._num;
     _denum *= oth._denum;
-    reduce_helper();
+    this->reduce_helper();
     return *this;
 } 
 
@@ -117,35 +117,35 @@ Rational& Rational::operator/=(const Rational& oth) {
     }
     _num *= oth._denum;
     _denum *= oth._num;
-    reduce_helper();
+    this->reduce_helper();
     return *this;
 }
 
-Rational operator+(Rational rhs, const Rational& oth){
+Rational operator+(Rational rhs, const Rational& oth) {
+    Rational tmp;
     if (oth._denum == rhs._denum) {
-        Rational tmp (rhs._num + oth._num, rhs._denum);
-        void reduce_helper();
-        return tmp;
+        tmp = Rational(rhs._num + oth._num, rhs._denum);
+    } else {
+        tmp = Rational((rhs._num * oth._denum) + (rhs._denum * oth._num), rhs._denum * oth._denum);
     }
-    Rational tmp((rhs._num * oth._denum) + (rhs._denum * oth._num), rhs._denum * oth._denum);
-    void reduce_helper();
+    tmp.reduce_helper();
     return tmp;
 }
 
 Rational operator-(Rational rhs, const Rational& oth){
     if (oth._denum == rhs._denum) {
         Rational tmp (rhs._num - oth._num, rhs._denum);
-        void reduce_helper();
+        tmp.reduce_helper();
         return tmp;
     }
     Rational tmp ((rhs._num * oth._denum) - (rhs._denum * oth._num), rhs._denum * oth._denum);
-    void reduce_helper();
+    tmp.reduce_helper();
     return tmp;
 }
 
 Rational operator*(Rational rhs, const Rational& oth){
     Rational tmp ( rhs._num * oth._num, rhs._denum * oth._denum);
-    void reduce_helper();
+    tmp.reduce_helper();
     return tmp;
 }
 
@@ -154,7 +154,7 @@ Rational operator/(Rational rhs, const Rational& oth) {
         std::cout << "Your num cannot be 0" << std::exit;
     }
     Rational tmp ( rhs._num * oth._denum, rhs._denum * oth._num);
-    void reduce_helper();
+    tmp.reduce_helper();
     return tmp;
 }
 
