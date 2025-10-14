@@ -1,4 +1,4 @@
-#include <Rational.hpp>
+#include "Rational.hpp"
 #include <iostream>
 
 Rational::Rational(int num, int denum) {
@@ -32,7 +32,7 @@ Rational& Rational::operator=(Rational&& oth){
     return *this;
 }
 
-Rational::Rational (Rational&& oth){
+Rational::Rational (Rational&& oth) : _num(oth._num), _denum (oth._denum) {
     oth._num = 0;
     oth._denum = 0;
 }
@@ -113,7 +113,8 @@ Rational& Rational::operator*=(const Rational& oth) {
 
 Rational& Rational::operator/=(const Rational& oth) {
     if (oth._num == 0) {
-        std::cout << "Your num cannot be 0" << std::exit;
+        std::cout << "Your num cannot be 0" << std::endl;
+        std::exit(1);
     }
     _num *= oth._denum;
     _denum *= oth._num;
@@ -151,7 +152,8 @@ Rational operator*(Rational rhs, const Rational& oth){
 
 Rational operator/(Rational rhs, const Rational& oth) {
     if (oth._num == 0) {
-        std::cout << "Your num cannot be 0" << std::exit;
+        std::cout << "Your num cannot be 0" << std::endl;
+        std::exit(1);
     }
     Rational tmp ( rhs._num * oth._denum, rhs._denum * oth._num);
     tmp.reduce_helper();

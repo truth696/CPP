@@ -19,7 +19,7 @@ class Rational {
         Rational (int num, int denum);
         //Move/Copy constructor
         Rational (const Rational& oth) : _num(oth._num), _denum (oth._denum) {};
-        Rational (Rational&& oth) : _num(oth._num), _denum (oth._denum) {};
+        Rational (Rational&& oth);
         //Assign operator
         Rational& operator= (Rational&& oth);
         Rational& operator=(const Rational& oth);
@@ -61,4 +61,3 @@ class Rational {
             return this->_num / this->_denum;
         }
 };
-
