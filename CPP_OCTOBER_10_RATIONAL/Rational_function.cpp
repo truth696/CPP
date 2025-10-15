@@ -112,7 +112,7 @@ Rational& Rational::operator*=(const Rational& oth) {
 } 
 
 Rational& Rational::operator/=(const Rational& oth) {
-    if (oth._num == 0) {
+    if (oth._denum == 0) {
         std::cout << "Your num cannot be 0" << std::endl;
         std::exit(1);
     }
@@ -123,14 +123,13 @@ Rational& Rational::operator/=(const Rational& oth) {
 }
 
 Rational operator+(Rational rhs, const Rational& oth) {
-    Rational tmp;
     if (oth._denum == rhs._denum) {
-        tmp = Rational(rhs._num + oth._num, rhs._denum);
+        rhs = Rational(rhs._num + oth._num, rhs._denum);
     } else {
-        tmp = Rational((rhs._num * oth._denum) + (rhs._denum * oth._num), rhs._denum * oth._denum);
+        rhs = Rational((rhs._num * oth._denum) + (rhs._denum * oth._num), rhs._denum * oth._denum);
     }
-    tmp.reduce_helper();
-    return tmp;
+    rhs.reduce_helper();
+    return rhs;
 }
 
 Rational operator-(Rational rhs, const Rational& oth){
@@ -161,38 +160,38 @@ Rational operator/(Rational rhs, const Rational& oth) {
 }
 
 bool operator==(const Rational& lhs, const Rational& rhs) {
-    int tmp = lhs._num / lhs._denum;
-    int tmp2 = rhs._num / rhs._denum;
+   double tmp = lhs._num / lhs._denum;
+    double tmp2 = rhs._num / rhs._denum;
     return tmp == tmp2;
 }
 
 bool operator!=(const Rational& lhs, const Rational& rhs) {
-    int tmp = lhs._num / lhs._denum;
-    int tmp2 = rhs._num / rhs._denum;
+    double tmp = lhs._num / lhs._denum;
+    double tmp2 = rhs._num / rhs._denum;
     return tmp != tmp2;
 }
 
 bool operator<(const Rational& lhs, const Rational& rhs) {
-    int tmp = lhs._num / lhs._denum;
-    int tmp2 = rhs._num / rhs._denum;
+    double tmp = lhs._num / lhs._denum;
+    double tmp2 = rhs._num / rhs._denum;
     return tmp < tmp2;
 }
 
 bool operator>(const Rational& lhs, const Rational& rhs) {
-    int tmp = lhs._num / lhs._denum;
-    int tmp2 = rhs._num / rhs._denum;
+    double tmp = lhs._num / lhs._denum;
+    double tmp2 = rhs._num / rhs._denum;
     return tmp > tmp2;
 }
 
 bool operator<=(const Rational& lhs, const Rational& rhs) {
-    int tmp = lhs._num / lhs._denum;
-    int tmp2 = rhs._num / rhs._denum;
+    double tmp = lhs._num / lhs._denum;
+    double tmp2 = rhs._num / rhs._denum;
     return tmp <= tmp2;
 }
 
 bool operator>=(const Rational& lhs, const Rational& rhs) {
-    int tmp = lhs._num / lhs._denum;
-    int tmp2 = rhs._num / rhs._denum;
+   double tmp = lhs._num / lhs._denum;
+    double tmp2 = rhs._num / rhs._denum;
     return tmp >= tmp2;
 }
 
