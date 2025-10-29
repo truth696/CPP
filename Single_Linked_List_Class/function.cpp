@@ -1,4 +1,5 @@
 #include "List.hpp"
+#include <initializer_list>
 
 SingleList::SingleList(std::initializer_list<int> init) {
     Node dummy;
@@ -57,16 +58,20 @@ void SingleList::push_front(int _val = 0) {
 }
 
 void SingleList::pop_back() {
+     if (!head->next) {      
+        delete head;
+        head = nullptr;
+        return;
+    }
     if (head){
-        Node* tmp2;
         Node* tmp = head;
+        Node* tmp2 = tmp;
         while (tmp->next){
             tmp2 = tmp;
             tmp = tmp->next;
         }
         delete tmp;
         tmp2->next = nullptr;
-
     }
 }
 
@@ -167,7 +172,7 @@ bool SingleList::operator!=(const SingleList& oth) const{
     if (this->size() != oth.size()) return true;
 
     while (tmp && tmp2) {
-        if (tmp->val == tmp2->val) return false;
+        if (tmp->val != tmp2->val) return true;
         tmp = tmp->next;
         tmp2 = tmp2->next;
     }
@@ -186,7 +191,7 @@ int& SingleList::operator[](size_t index) {
         ++i;
     }
     std::cout << "Your index a larger size" << std::endl;
-    std::exit(0);
+    std::exit(10);
 }
 
 bool SingleList::operator! () const {
