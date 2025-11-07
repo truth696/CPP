@@ -27,7 +27,6 @@ void SingleList::copy (const SingleList& rhs){
 }
 
 SingleList::SingleList(const SingleList &oth) {
-    this->clear();
     this->copy(oth);
 }
 
@@ -58,7 +57,8 @@ void SingleList::push_front(int _val = 0) {
 }
 
 void SingleList::pop_back() {
-     if (!head->next) {      
+    if (!head) return; 
+    if (!head->next) {      
         delete head;
         head = nullptr;
         return;
@@ -90,7 +90,7 @@ void SingleList::pop_front(){
         Node* tmp = head;
         head = head->next;
         delete tmp;
-    }
+    }   
 }
 
 void SingleList::clear() {
@@ -114,48 +114,62 @@ SingleList& SingleList::operator=(SingleList &&oth) {
     return *this;
 }
 
-SingleList SingleList::operator+(const SingleList& rhs){
+SingleList operator+(const SingleList& rhs, const SingleList& oth){
     SingleList obj;
-    Node dummy;
-    Node* tmp = this->head;
-    Node* tmp2 = &dummy;
-    while (tmp){
-        tmp2->next = new Node(tmp->val);
+    SingleList::Node dummy;
+    SingleList::Node* tmp_r = rhs.head;
+    SingleList::Node* tmp_o =oth.head;
+    SingleList::Node* tmp2 = &dummy;
+    if (!tmp_o) return obj = rhs;
+    if (!tmp_r) return obj = oth;
+
+    while (tmp_r){
+        tmp2->next = new SingleList::Node(tmp_r->val);
         tmp2 = tmp2->next;
-        tmp = tmp->next;
+        tmp_r = tmp_r->next;
     }
 
-    tmp = rhs.head;
-
-    while (tmp){
-        tmp2->next = new Node(tmp->val);
+    while (tmp_o){
+        tmp2->next = new SingleList::Node(tmp_o->val);
         tmp2 = tmp2->next;
-        tmp = tmp->next;
+        tmp_o = tmp_o->next;
     }
 
     obj.head = dummy.next;
     return obj;
 }
 
-SingleList& SingleList::operator+=(const SingleList& oth) {
-    Node* tmp = oth.head;
-    Node* tmp2 = this->head;
+SingleList& operator+=(SingleList& rhs, const SingleList& oth) {
+    if (oth.head == nullptr) return rhs;
 
+    SingleList::Node* tmp = oth.head;
+    SingleList::Node* tmp2 = rhs.head;
+    if (rhs.head == nullptr){
+        rhs.head = new SingleList::Node(tmp->val);
+        tmp2 = rhs.head;
+        tmp = tmp->next;
+        while (tmp){
+            tmp2->next = new SingleList::Node(tmp->val);
+            tmp2 = tmp2->next;
+            tmp = tmp->next;
+        }
+        return rhs;
+    } 
     while (tmp2->next)  tmp2 = tmp2->next;
     
     while (tmp) {
-        tmp2->next = new Node(tmp->val);
+        tmp2->next = new SingleList::Node(tmp->val);
         tmp2 = tmp2->next;
         tmp = tmp->next;
     }
     
-    return *this;
+    return rhs;
 }
 
-bool SingleList::operator==(const SingleList& oth) const {
-    Node* tmp = this->head;
-    Node* tmp2 = oth.head;
-    if (this->size() != oth.size()) return false;
+bool operator==(const SingleList& rhs, const SingleList& oth) {
+    SingleList::Node* tmp = rhs.head;
+    SingleList::Node* tmp2 = oth.head;
+    if (rhs.size() != oth.size()) return false;
 
     while(tmp && tmp2) {
         if (tmp->val != tmp2->val) return false;
@@ -166,10 +180,10 @@ bool SingleList::operator==(const SingleList& oth) const {
     return true;
 }
 
-bool SingleList::operator!=(const SingleList& oth) const{
-    Node* tmp = this->head;
-    Node* tmp2 = oth.head;
-    if (this->size() != oth.size()) return true;
+bool operator!=(const SingleList& rhs, const SingleList& oth) {
+    SingleList::Node* tmp = rhs.head;
+    SingleList::Node* tmp2 = oth.head;
+    if (rhs.size() != oth.size()) return true;
 
     while (tmp && tmp2) {
         if (tmp->val != tmp2->val) return true;

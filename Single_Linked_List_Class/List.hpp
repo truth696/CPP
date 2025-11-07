@@ -26,10 +26,10 @@ class SingleList {
     void pop_front();
     int size() const;
    
-    SingleList operator+(const SingleList& rhs);
-    SingleList& operator+=(const SingleList& oth);
-    bool operator==(const SingleList& oth) const;
-    bool operator!=(const SingleList& oth) const;
+    friend SingleList operator+(const SingleList& rhs, const SingleList& oth);
+    friend SingleList& operator+=(SingleList& rhs, const SingleList& oth);
+    friend bool operator==(const SingleList& rhs, const SingleList& oth);
+    friend bool operator!=(const SingleList& rhs, const SingleList& oth);
     
     int& operator[](size_t index);
     bool operator!() const;
