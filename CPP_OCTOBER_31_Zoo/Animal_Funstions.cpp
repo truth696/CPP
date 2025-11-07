@@ -1,4 +1,4 @@
-#include "Animals.hpp"
+#include "Animal_Classes.hpp"
 
 void Lion::PrintInfo() const{
     std::cout << "Name: " << name << std::endl;

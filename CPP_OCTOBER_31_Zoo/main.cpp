@@ -1,4 +1,5 @@
-#include "Animals.hpp"
+#include "Generalization.hpp"
+#include "Animal_Classes.hpp"
 #include <iostream>
 #include <vector>
 #include <memory>

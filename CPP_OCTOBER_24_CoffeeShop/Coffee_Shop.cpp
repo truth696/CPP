@@ -1,4 +1,4 @@
-#include "Coffee_House.hpp"
+#include "Coffee_Shop.hpp"
 
 void Customer::setBalance(double newBalance) {
     if (newBalance >= 0) balance = newBalance;

@@ -1,5 +1,5 @@
 #pragma once
-#include "Zoo.hpp"
+#include "Generalization.hpp"
 
 
 class Bird : public Animal{
