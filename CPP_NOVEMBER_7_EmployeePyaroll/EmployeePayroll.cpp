@@ -1,6 +1,6 @@
 #include "EmployeePayroll.hpp"
 
-int Counter::_id = 0;
+
 
 void Intern::printInfo() const{
     std::cout << "Name: " << getName() << std::endl;
