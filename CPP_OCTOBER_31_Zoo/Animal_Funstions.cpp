@@ -122,8 +122,6 @@ void Animal::Feed() {
 
 Kind Animal::KindOf() const {  return kind;  }
 
-void Bird::Fly() { std::cout << "Fly! Fly! Fly!" << std::endl; }
-
 void Reptile::Sunbathe() const{ std::cout << "Warm.. Warm.. Warm.." << std::endl; }
 
 void Lion::Roar() const { std::cout << "Roar this lion is " << roarPower << std::endl; }
@@ -150,8 +148,10 @@ void Elephant::MakeSound() const {
 void Eagle::Soar() { std::cout << "I'm trying to find a victim" << std::endl; }
 
 void Eagle::MakeSound() const{
-    std::cout << "Just listen" << std::endl;
+    std::cout << "Eagle presents just listen" << std::endl;
     system("afplay /Users/mikael/Downloads/the-eerie-scream-of-a-bird-of-prey.mp3 &");
+    // system("afplay /Users/mikael/Downloads/blatnoy-udar-blatnoy-udar-dolya.mp3 &");
+
 }
 
 void Parrot::Speak() const {
@@ -180,3 +180,73 @@ void Crocodile::MakeSound() const {
     std::cout << "just listen" << std::endl;
     system("afplay /Users/mikael/Downloads/crocodile-sounds-in-the-wild.mp3 &");
 }
+
+
+
+//Lion
+void Lion::Swim() const {
+    std::cout << "Lion swims" << std::endl;
+}
+void Lion::Walk() const {
+    std::cout << "Lion walks" <<std::endl;
+}
+void Lion::Feddble() const{
+    std::cout << "Lion feddble" << std::endl;
+}
+
+//Elephant
+void Elephant::Walk() const{ 
+    std::cout << "Elephant walks" <<std::endl;
+}
+void Elephant::Feddble() const{
+    std::cout << "Elephant feddble" << std::endl;
+}
+
+//Tiger
+void Tiger::Walk() const {
+    std::cout << "Tiger walks" <<std::endl;
+}
+void Tiger::Swim() const {
+    std::cout << "Tiger swims" << std::endl;
+}
+void Tiger::Feddble() const {
+    std::cout << "Tiger feddble" << std::endl;
+}
+
+//Eagle
+void Eagle::Fly() const {
+    std::cout << "Eagle flies" << std::endl;
+}
+void Eagle::Feddble() const{
+    std::cout << "Eagle feddble" << std::endl;
+}
+void Eagle::Walk() const{
+    std::cout << "Eagle walks" <<std::endl;
+}
+
+//Parrot
+void Parrot::Fly() const {
+    std::cout << "Parrot flies" << std::endl;
+}
+void Parrot::Feddble() const{
+    std::cout << "Parrot feddble" << std::endl;
+}
+void Parrot::Walk() const{
+    std::cout << "Parrot walks" <<std::endl;
+}
+
+//Snake 
+void Snake::Feddble() const {
+    std::cout << "Snake feddble" << std::endl;
+}
+void Snake::Swim() const {
+    std::cout << "Snake swims" << std::endl;
+}
+
+//Corcodile 
+void Crocodile::Feddble() const{
+    std::cout << "Crocodile feddble" << std::endl;
+}    
+void Crocodile::Swim() const{
+    std::cout << "Crocodile swims" << std::endl;
+}    
