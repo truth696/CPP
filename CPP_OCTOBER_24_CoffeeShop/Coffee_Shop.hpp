@@ -14,7 +14,6 @@ private:
     std::vector<Customer*> queue;  
 
 public:
-    //for gpt
     const std::vector<Drink*>& getMenu() const { return menu; }
     const std::vector<Barista*>& getBaristas() const { return baristas; }
     const std::vector<Customer*>& getQueue() const { return queue; }
