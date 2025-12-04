@@ -282,7 +282,7 @@ int main() {
     // 17) Final summary print
     std::cout << "\n=== TEST SUITE COMPLETE ===\n";
     std::cout << "Total accounts created locally: " << localAccounts.size() << "\n";
-    std::cout << "Inspect the above per-test lines for 'сексесфулл' (success) or errors.\n";
+    std::cout << "Inspect the above per-test lines for (success) or errors.\n";
 
     return 0;
 }
