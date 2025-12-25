@@ -8,32 +8,37 @@ class Base{
     double k;
 public:
     virtual void foo() {
-        std::cout << "base foo" << std::endl;
+        std::cout << "'foo1" << std::endl;
     }
     virtual void hoo() {
-        std::cout << "base hoo " << std::endl;
+        std::cout << "'hoo1" << std::endl;
     }
 };
 
 class Derived : public Base {
     double l;
 public:
-    virtual void foo() override{
-        std::cout << "derived foo" << std::endl;
+    virtual void foo() override{   
+        std::cout << "'foo2" << std::endl;
+
     }
     virtual void hoo() override{
-        std::cout << "derived hoo" << std::endl;
+        std::cout << "'hoo2" << std::endl;
     }
-
 };
 
 int main() {
-    Base* b = new Derived;
-    void** vtbale = *(void***)b;
-
-    Fn f1 = (Fn)(vtbale[0]);
-    Fn f2 = (Fn)(vtbale[1]);
-    f2(b);
-    f1(b);
-    
+    Base* ptr = new Derived;
+    void** vtable = *(void***)ptr;
+    Fn f1 = (Fn)vtable[0];
+    Fn f2 = (Fn)vtable[0];
+    f1(vtable);
+    f2(vtable);
 }
+
+
+
+
+
+
+
