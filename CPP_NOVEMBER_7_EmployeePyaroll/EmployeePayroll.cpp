@@ -1,7 +1,5 @@
 #include "EmployeePayroll.hpp"
 
-
-
 void Intern::printInfo() const{
     std::cout << "Name: " << getName() << std::endl;
     std::cout << "Id: " << getId() << std::endl;
