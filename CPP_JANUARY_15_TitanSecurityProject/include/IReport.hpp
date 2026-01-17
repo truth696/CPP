@@ -5,5 +5,6 @@
 
 class IReport {
 public:
+    virtual ~IReport() = default;
     void generateReport(ISystem* s);
 };

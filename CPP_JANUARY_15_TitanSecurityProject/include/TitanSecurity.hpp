@@ -10,6 +10,7 @@ protected:
     std::string currentMode;
     bool systemArmed;
 public:
+    virtual ~TitanSystem() = default;
     void SetMode(std::string mode) override;
     bool getArmed() override {return systemArmed;}
     std::string getMode() override { return currentMode; }
