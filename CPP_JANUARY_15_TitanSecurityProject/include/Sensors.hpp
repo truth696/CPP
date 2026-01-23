@@ -3,9 +3,9 @@
 #include <vector>
 #include <string>
 #include "AlarmSystem.hpp"
-#include "IReport.hpp"
+#include "Report.hpp"
 #include "ISensor.hpp"
-#include "LogFile.hpp"
+#include "LogToFile.hpp"
 
 
 class Sensors : public ISensor, public AlarmSystem{

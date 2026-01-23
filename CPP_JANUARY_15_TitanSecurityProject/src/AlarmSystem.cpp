@@ -1,5 +1,5 @@
 #include "IAlarms.hpp"
-#include "LogFile.hpp"
+#include "LogToFile.hpp"
 #include"AlarmSystem.hpp"
 
 void AlarmSystem::triggerAlarm(std::string severity, std::string notifyWho) {
@@ -22,5 +22,5 @@ void AlarmSystem::triggerAlarm(std::string severity, std::string notifyWho) {
     }
 
     // 3. Logging
-    logToFile("ALARM: " + severity + " sent to " + notifyWho);
+    logTo("ALARM: " + severity + " sent to " + notifyWho);
 }

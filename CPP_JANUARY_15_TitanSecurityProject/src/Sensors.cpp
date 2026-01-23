@@ -71,4 +71,3 @@ void Sensors::HeatSensor(int data) {
         std::cout << "Normal." << std::endl;
     }
 }
-

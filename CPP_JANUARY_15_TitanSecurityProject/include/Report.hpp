@@ -3,8 +3,8 @@
 #include "Sensors.hpp"
 #include "ISystem.hpp"
 
-class IReport {
+class Report {
 public:
-    virtual ~IReport() = default;
+    virtual ~Report() = default;
     void generateReport(ISystem* s);
 };

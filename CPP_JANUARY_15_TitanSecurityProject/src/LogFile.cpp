@@ -1,7 +1,7 @@
-#include "LogFile.hpp"
+#include "LogToFile.hpp"
 #include <iostream>
 
-void LogFile::logToFile(std::string message) {
+void LogToFile::logTo(std::string message) {
         logFile.open("system_log.txt", std::ios_base::app); 
         if (logFile.is_open()) {
             // Get current time

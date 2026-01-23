@@ -1,6 +1,6 @@
-#include "IReport.hpp"
+#include "Report.hpp"
 
-void IReport::generateReport(ISystem* s) {
+void Report::generateReport(ISystem* s) {
     std::cout << "\nGenerating System Report..." << std::endl;
     std::cout << "System Armed: " << (s->getArmed() ? "YES" : "NO") << std::endl;
 }
