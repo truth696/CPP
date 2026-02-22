@@ -1,3 +1,4 @@
+#pragma once 
 #include <iostream>
 #include <exception>
 #include <initializer_list>
@@ -6,205 +7,267 @@
 
 template <typename T>
 class List 
-{
+{ 
     struct Node
     {
-        Node* prev = nullptr;
-        Node* next = nullptr;
+        Node* prev;
+        Node* next;
         T value;
-
-        Node(const T& v) : value(v) {}
-        Node(T&& v) : value(std::move(v)) {}
+        
+        Node() : prev(nullptr), next(nullptr), value() {}
+        Node(const T& v, Node* _next = nullptr , Node* _prev = nullptr) : prev(_prev), next(_next), value(v) {}
+        Node(T&& v, Node* _next = nullptr , Node* _prev = nullptr) : prev(_prev), next(_next), value(std::move(v)) {}
     };
 
-    Node* head = nullptr;
-    Node* taile = nullptr;
+    Node* sentinel; 
+    
+    struct iterator 
+    {
+        Node* curr;
+        iterator(Node* tmp = nullptr) : curr(tmp) {}
+        iterator(const iterator& oth) : curr(oth.curr) {}
+
+        bool operator!= (iterator oth) const { return this->curr != oth.curr; }
+
+        iterator operator++ () 
+        {
+            curr = curr->next;
+            return *this;
+        }
+
+        iterator operator++ (int) 
+        {
+            iterator nonModify = *this;
+            curr = curr->next;
+            return nonModify;
+        }
+
+        iterator operator-- () 
+        {
+            curr = curr->prev;
+            return *this;
+        }
+        
+        iterator operator-- (int) 
+        {
+            iterator nonModify = *this;
+            curr = curr->prev;
+            return nonModify;
+        }
+
+        T& operator* () 
+        {
+            return curr->value;
+        }
+
+        bool operator== (iterator pt) const { return curr == pt.curr; }
+    };
+
     size_t size_dll = 0;
 public:
 
-    List() = default;
+    List() : sentinel(new Node{}) {
+        sentinel->next = sentinel;
+        sentinel->prev = sentinel;
+    }
 
-    ~List<T>() { clear(); }
-
-    List<T>(
-        const List<T>& other
-    )
+    ~List<T>()
     {
-        Node* node = other.head;
-        while(node)
+        clear();
+        delete sentinel;
+    }
+
+    List<T>(const List<T>& other)
+    {
+        sentinel = new Node();
+        
+        sentinel->next = sentinel;
+        sentinel->prev = sentinel;
+
+        for (Node* node = other.sentinel->next; node != other.sentinel; node = node->next)
         {
             this->push_back(node->value);
-            node = node->next;
         }
     }
 
-    List<T>(
-        List<T>&& other
-    ) : head(other.head),
-        taile(other.taile) ,
-        size_dll(other.size_dll)
-    {
-        other.head = other.taile = nullptr;
+    List<T>(List<T>&& other)
+    {   
+        sentinel =  other.sentinel;
+        other.sentinel = new Node();
+
+        other.sentinel->next = other.sentinel;
+        other.sentinel->prev = other.sentinel;
+    
+        size_dll = other.size_dll;
         other.size_dll = 0;
     }
 
-    List<T>(
-        const std::initializer_list<T>& list
-    )
+    List<T>(const std::initializer_list<T>& list)
     {
+        sentinel = new Node();
+        sentinel->next = sentinel;
+        sentinel->prev = sentinel;
         for (auto i : list) 
         {
             this->push_back(i);
         }
     }
     
-    List<T>(
-        std::vector<T>& vec
-    )
+    List<T>(std::vector<T>& vec)
     {
+        sentinel = new Node();
+        sentinel->next = sentinel;
+        sentinel->prev = sentinel;
         for (auto i : vec) 
         {
             this->push_back(i);
         }
     }
     
-    List<T>& operator=(
-        const List<T>& other
-    ) 
+    List<T>& operator=(const List<T>& other) 
     {
         if (&other == this) return *this;
         clear();
         
-        Node* node = other.head;
-        while(node)
+        Node* node = other.sentinel->next;
+        for (Node* node = other.sentinel->next; node != other.sentinel; node = node->next)
         {
             this->push_back(node->value);
-            node = node->next;
         }
 
         return *this;
     }
 
-    List<T>& operator=(
-        List<T>&& other
-    )
+    List<T>& operator=(List<T>&& other)
     {
-        if (this == &other) return * this;
+        if (this == &other) return *this;
         clear();
+        delete sentinel;
 
-        head = other.head;
-        taile = other.taile;
+        sentinel = other.sentinel;
+        other.sentinel = new Node();
+
+        other.sentinel->next = other.sentinel;
+        other.sentinel->prev = other.sentinel;
+    
         size_dll = other.size_dll;
-
-        other.head = other.taile = nullptr;
         other.size_dll = 0;
 
         return *this;
     }
 
-    void push_front(
-        const T& arg
-    )
+    iterator begin() 
     {
-        Node* node = new Node(arg);
-        if (!head && !taile) head = taile = node;
-        else 
-        {
-            head->prev = node;
-            node->next = head;
-            head = node;
-        }
-        ++size_dll;
+        return iterator(sentinel->next);
     }
 
-    void push_front(
-        T&& arg
-    )
+    iterator end() 
     {
-        Node* node = new Node(std::move(arg));
-        if (!head && !taile) head = taile = node;
-        else 
-        {
-            head->prev = node;
-            node->next = head;
-            head = node;
-        }
-        ++size_dll;
+        return iterator(sentinel);
+    }
+
+
+    void push_front(const T& arg)
+    {
+        insert(this->begin(), arg);
+    }
+
+    void push_front(T&& arg)
+    {
+        insert(this->begin(), std::move(arg));
     } 
     
-    void push_back(
-        const T& arg
-    )
+    void push_back(const T& arg)
     {
-        Node* node = new Node(arg);
-        if (!head && !taile) head = taile = node;
-        else 
-        {
-            taile->next = node;
-            node->prev = taile;
-            taile = node;
-        }
-        ++size_dll;
+        insert(end(), arg);
     }
-    void push_back(
-        T&& arg
-    )
+
+    void push_back(T&& arg)
     {
-        Node* node = new Node(arg);
-        if (!head && !taile) head = taile = node;
-        else 
-        {
-            taile->next = node;
-            node->prev = taile;
-            taile = node;
-        }
-        ++size_dll;
+        insert(end(), std::move(arg));
     }
     
     void pop_back()
     {
         try
         {
-            if (!taile) throw std::out_of_range("list is empty");
-            else 
-            {
-                Node* node = taile;
-                taile = taile->prev;
-
-                if (taile) taile->next = nullptr;
-                else head  = nullptr;
-                
-                delete node;
-                --size_dll;
-            }
+            Node* node = sentinel->prev;
+            
+            if (node == sentinel) throw std::out_of_range("list is empty");
+            
+            node->next->prev = node->prev;
+            node->prev->next = node->next;
+            
+            delete node;
+            --size_dll;
         } catch (std::exception& e)
         {
             std::cout << e.what() << std::endl;
         }
     }
+
     void pop_front()
     {
         try 
         {
-            if (!head) throw std::out_of_range("list is empty");
-            Node* node = head;
+            Node* node = sentinel->next;
 
-            head = head->next;
-            if(head) head->prev = nullptr;
-            else taile = nullptr;
+            if(node == sentinel) throw std::out_of_range("list is empty");
 
+            node->prev->next = node->next;
+            node->next->prev = node->prev;
+            
             delete node;
             --size_dll;
-
         } catch (std::exception& e)
         {
             std::cout << e.what() << std::endl;
         }
     }
+
+
+    iterator insert(iterator pos, iterator first, iterator last) 
+    {
+        int i{};
+        iterator ret;
+
+        for (;first != last; ++first, ++i) 
+        {
+            auto curr = first.curr;
+            auto it = insert(pos, curr->value);
+
+            if (!i) ret = it;
+        }
+
+        return ret;
+    }
+
+    iterator insert(iterator pos, const T& val) 
+    {
+        Node* curr = pos.curr;
+        Node* newNode = new Node(val, curr, curr->prev);
+        
+        curr->prev->next = newNode;
+        curr->prev = newNode;
+        ++size_dll;
+
+        return iterator(newNode);
+    }
     
-    void insert(
-        size_t pos, const T& arg
-    ) 
+    iterator insert(iterator pos, T&& val) 
+    {
+        Node* curr = pos.curr;
+        Node* newNode = new Node(std::move(val), curr, curr->prev);
+        
+        curr->prev->next = newNode;
+        curr->prev = newNode;
+        ++size_dll;
+
+        return iterator(newNode);
+    }
+    
+
+    void insert(size_t pos, const T& arg) 
     {
         try 
         {
@@ -220,7 +283,7 @@ public:
                 return;
             }  
 
-            Node* node = head;
+            Node* node = sentinel->next;
             for (size_t i{}; i < pos; ++i) node = node->next;
 
             Node* tmp = new Node(arg);
@@ -236,9 +299,7 @@ public:
             std::cout << e.what() << std::endl;
         } 
     }
-    void insert(
-        size_t pos, T&& arg
-    )
+    void insert(size_t pos, T&& arg)
     {
         try 
         {
@@ -254,7 +315,7 @@ public:
                 return;
             }  
 
-            Node* node = head;
+            Node* node = sentinel->next;
             for (size_t i{}; i < pos; ++i) node = node->next;
 
             Node* tmp = new Node(std::move(arg));
@@ -271,6 +332,31 @@ public:
         } 
     }
 
+    iterator erase(iterator first, iterator last) 
+    {
+        while (first != last)
+        {
+            first = erase(first);
+        }
+        return last;
+    }
+
+    iterator erase(iterator pos)
+    {
+        if (pos.curr == sentinel) return end();
+
+        auto node = pos.curr;
+        auto ret = pos.curr->next;
+
+        node->prev->next = node->next;
+        node->next->prev = node->prev;
+
+        delete node;
+        --size_dll;
+
+        return iterator(ret);
+    }
+
     void erase(size_t pos) {
         try 
         {
@@ -285,7 +371,7 @@ public:
                 return; 
             }
             
-            Node* node = head;
+            Node* node = sentinel->next;
 
             for (size_t i{}; i < pos; ++i) node = node->next;
 
@@ -304,8 +390,7 @@ public:
         List<T>& oth
     )
     {
-        std::swap(head, oth.head);
-        std::swap(taile, oth.taile);
+        std::swap(sentinel, oth.sentinel);
         std::swap(size_dll, oth.size_dll);
     }
     
@@ -315,25 +400,26 @@ public:
     
     void clear()
     {
-        Node* node = head;
-        while (node)
+        Node* node = sentinel->next;
+        while (node != sentinel)
         {
             Node* nxt = node->next;
             delete node;
             node = nxt;
         }
-        head = taile = nullptr;
+        sentinel->next = sentinel;
+        sentinel->prev = sentinel;
         size_dll = 0;
     }
 
     T& back() {
-        if (!taile) std::out_of_range("list is empty");
-        return taile->value; 
+        if (sentinel->prev == sentinel) throw std::out_of_range("list is empty");
+        return sentinel->prev->value; 
     }
 
     const T& back() const {
-        if (!taile) std::out_of_range("list is empty");
-        return taile->value; 
+        if (sentinel->prev == sentinel) throw std::out_of_range("list is empty");
+        return sentinel->prev->value; 
     }
 
 };
