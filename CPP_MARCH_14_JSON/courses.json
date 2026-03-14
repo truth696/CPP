@@ -1,0 +1,12 @@
+[
+ {
+  "title" : "C++",
+  "credit" : 100,
+  "mandatory" : true
+ },
+ {
+  "title" : "JS",
+  "credit" : 0,
+  "mandatory" : false
+ }
+]
