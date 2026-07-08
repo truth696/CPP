@@ -15,11 +15,6 @@ class back_insert_iterator
 
 };
 
-template <typename container>
-auto back_insertor(const container& cont)
-{
-    return back_insert_iterator(cont);
-} 
 
 template <typename container>
 class front_insert_iterator
@@ -35,11 +30,6 @@ class front_insert_iterator
         front_insert_iterator& operator= (const typename container::value_type& val) { cont->push_front(val); return *this; }
 };
 
-template <typename container>
-auto fornt_insetor(const container& cont)
-{
-    return front_insert_iterator(cont);
-} 
 
 template <typename container>
 class insert_iterator
@@ -55,12 +45,6 @@ class insert_iterator
     insert_iterator& operator*() { return *this; }
     insert_iterator& operator= (const typename container::value_type& val) { cont->insert(it++,val); return *this; }
 };
-
-template <typename container>
-auto insert_iterator_f(const container& cont, typename container::iterator it)
-{
-    return insert_iterator(cont, it);
-} 
 
 template <typename iterator>
 class move_iterator

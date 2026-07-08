@@ -117,6 +117,12 @@ private :
         --_size;
     }
 
+    int back() {
+        if (!this->get_size()) return INT_MAX;
+        return data[_size - 1];
+    }
+
+    bool empty() { return _size == 0;}
 };
 
 

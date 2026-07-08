@@ -4,7 +4,7 @@
 
 int main() {
     std::vector<int> vec;
-    auto it = back_inserter(vec);
+    auto it = back_insert_iterator<std::vector<int>>(vec);
 
     *it = 1;
     *it = 2;
@@ -15,7 +15,7 @@ int main() {
     std::cout <<  "\n";
 
     std::list<int> lst;
-    auto it2 = front_inserter(lst);
+    auto it2 = insert_iterator<std::list<int>>(lst, lst.begin());
 
     *it2 = 1;
     *it2 = 2;
